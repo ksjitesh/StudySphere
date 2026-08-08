@@ -32,9 +32,14 @@
 
 html {
   scroll-behavior: smooth;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 body {
+  margin: 0;
+  min-width: 0;
+  width: 100%;
   background: var(--bg);
   color: var(--text);
   transition:
@@ -43,8 +48,21 @@ body {
 }
 
 * {
+  box-sizing: border-box;
   transition:
     background-color 0.3s ease,
     color 0.3s ease,
     border-color 0.3s ease;
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  max-width: 100%;
 }

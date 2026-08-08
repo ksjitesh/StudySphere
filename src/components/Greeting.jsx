@@ -14,7 +14,7 @@ function Greeting() {
     greeting = "Good Evening";
     emoji = "🌇";
   } else {
-    greeting = "Good Night";
+    greeting = "Feeling Sleepy?";
     emoji = "🌙";
   }
 
@@ -60,93 +60,88 @@ function Greeting() {
   });
 
   return (
-    <section className="mb-16">
-
-      <div className="grid items-center gap-10 lg:grid-cols-2">
+    <section className="w-full">
+      <div className="grid w-full min-w-0 grid-cols-1 items-center gap-6 lg:grid-cols-2 lg:gap-10">
 
         {/* Left Side */}
 
-        <div>
-
+        <div className="min-w-0">
           <p
-            className="text-sm font-medium uppercase tracking-[0.25em]"
+            className="text-xs font-medium uppercase tracking-[0.2em] sm:text-sm sm:tracking-[0.25em]"
             style={{ color: "var(--primary)" }}
           >
             StudySphere Dashboard
           </p>
 
           <h1
-            className="mt-3 text-6xl font-extrabold tracking-tight transition-colors duration-300"
+            className="mt-3 break-words text-4xl font-extrabold tracking-tight transition-colors duration-300 sm:text-5xl lg:text-6xl"
             style={{ color: "var(--text)" }}
           >
             {greeting} {emoji}
           </h1>
 
           <p
-            className="mt-5 max-w-2xl text-xl leading-9 transition-colors duration-300"
+            className="mt-4 max-w-2xl text-base leading-7 transition-colors duration-300 sm:mt-5 sm:text-xl sm:leading-9"
             style={{ color: "var(--text-secondary)" }}
           >
             Ready to continue your learning?
           </p>
 
           <p
-            className="mt-3 text-base transition-colors duration-300"
+            className="mt-2 text-sm transition-colors duration-300 sm:mt-3 sm:text-base"
             style={{ color: "var(--text-secondary)" }}
           >
             {date}
           </p>
-
         </div>
 
         {/* Right Side Quote */}
 
         <div
-          className="rounded-3xl border p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+          className="w-full min-w-0 rounded-3xl border p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:p-6 lg:p-8"
           style={{
             backgroundColor: "var(--surface)",
             borderColor: "var(--border)",
           }}
         >
-                  <p
-            className="text-sm font-bold uppercase tracking-[0.2em]"
+          <p
+            className="text-xs font-bold uppercase tracking-[0.15em] sm:text-sm sm:tracking-[0.2em]"
             style={{ color: "var(--primary)" }}
           >
             💡 Quote of the Day
           </p>
 
           <h2
-            className="mt-6 text-3xl font-bold leading-relaxed transition-colors duration-300"
+            className="mt-4 break-words text-2xl font-bold leading-relaxed transition-colors duration-300 sm:mt-6 sm:text-3xl"
             style={{ color: "var(--text)" }}
           >
             "{quote}"
           </h2>
 
           <p
-            className="mt-6 text-lg font-semibold"
+            className="mt-4 text-base font-semibold sm:mt-6 sm:text-lg"
             style={{ color: "var(--primary)" }}
           >
             — {author}
           </p>
 
           <div
-            className="mt-8 rounded-2xl p-5"
+            className="mt-6 rounded-2xl p-4 sm:mt-8 sm:p-5"
             style={{
               backgroundColor:
                 "color-mix(in srgb, var(--primary) 10%, transparent)",
             }}
           >
             <p
-              className="whitespace-pre-line text-base leading-7"
+              className="whitespace-pre-line text-sm leading-6 sm:text-base sm:leading-7"
               style={{ color: "var(--text-secondary)" }}
             >
               {motivation}
             </p>
           </div>
-
         </div>
 
-        </div>
-
+      </div>
     </section>
   );
 }

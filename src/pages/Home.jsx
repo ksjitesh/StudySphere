@@ -1,8 +1,6 @@
 import Greeting from "../components/Greeting";
 import SemesterGrid from "../components/SemesterGrid";
 import LatestNotice from "../components/LatestNotice";
-import RecentUploads from "../components/RecentUploads";
-import UpcomingExams from "../components/UpcomingExams";
 
 function Home() {
   return (
@@ -12,7 +10,7 @@ function Home() {
     >
       {/* Main Dashboard Container */}
 
-      <div className="mx-auto max-w-7xl px-6 py-12 md:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 md:px-8 lg:px-10 lg:py-12">
 
         {/* Greeting */}
 
@@ -25,14 +23,6 @@ function Home() {
         {/* Latest Notice */}
 
         <LatestNotice />
-
-        {/* Recent Uploads */}
-
-        <RecentUploads />
-
-        {/* Upcoming Exams */}
-
-        <UpcomingExams />
 
       </div>
     </main>

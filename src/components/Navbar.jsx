@@ -16,19 +16,16 @@ import logo from "../assets/logo.svg";
 import { useTheme } from "../context/ThemeContext";
 
 function Navbar() {
-
-  const { theme, toggleTheme } =
-    useTheme();
-
+  const { theme, toggleTheme } = useTheme();
   const location = useLocation();
 
   return (
-
     <header
       className="
         sticky
         top-0
         z-50
+        w-full
         border-b
         backdrop-blur-md
         transition-colors
@@ -40,45 +37,45 @@ function Navbar() {
         borderColor: "var(--border)",
       }}
     >
-
       <nav
         className="
           mx-auto
           flex
-          h-20
+          h-16
+          w-full
           max-w-7xl
           items-center
           justify-between
-          px-6
+          gap-3
+          px-4
+          sm:h-20
+          sm:px-6
         "
       >
-
         {/* Logo */}
 
         <Link
           to="/"
-          className="flex items-center gap-3"
+          className="flex min-w-0 shrink-0 items-center gap-2 sm:gap-3"
         >
-
           <img
             src={logo}
             alt="StudySphere"
-            className="h-11 w-11 object-contain"
+            className="h-9 w-9 object-contain sm:h-11 sm:w-11"
           />
 
           <span
             className="
-              text-2xl
+              text-xl
               font-bold
               tracking-tight
+              sm:text-2xl
             "
             style={{
               color: "var(--text)",
             }}
           >
-
             Study
-
             <span
               style={{
                 color: "var(--primary)",
@@ -86,20 +83,19 @@ function Navbar() {
             >
               Sphere
             </span>
-
           </span>
-
         </Link>
 
         {/* Right Side */}
 
-        <div className="flex items-center gap-8">
-                  {/* Home */}
+        <div className="flex min-w-0 items-center gap-2 sm:gap-4 lg:gap-8">
+
+          {/* Home */}
 
           <NavLink
             to="/"
             className={({ isActive }) =>
-              `text-sm font-semibold transition-all duration-300 hover:scale-105 ${
+              `hidden text-sm font-semibold transition-all duration-300 hover:scale-105 sm:block ${
                 isActive ? "" : "hover:text-[#2F6F4F]"
               }`
             }
@@ -120,7 +116,7 @@ function Navbar() {
           <NavLink
             to="/syllabus"
             className={({ isActive }) =>
-              `text-sm font-semibold transition-all duration-300 hover:scale-105 ${
+              `hidden text-sm font-semibold transition-all duration-300 hover:scale-105 sm:block ${
                 isActive ? "" : "hover:text-[#2F6F4F]"
               }`
             }
@@ -139,71 +135,78 @@ function Navbar() {
           {/* Search */}
 
           {location.pathname !== "/search" && (
-
-            <Link to="/search">
-
-              <div
+            <Link
+              to="/search"
+              aria-label="Search"
+              className="
+                group
+                flex
+                h-10
+                w-10
+                shrink-0
+                items-center
+                justify-center
+                rounded-xl
+                border
+                transition-all
+                duration-300
+                hover:-translate-y-0.5
+                hover:shadow-lg
+                sm:h-11
+                sm:w-auto
+                sm:justify-start
+                sm:gap-3
+                sm:px-4
+              "
+              style={{
+                backgroundColor: "var(--surface)",
+                borderColor: "var(--border)",
+              }}
+            >
+              <Search
+                size={18}
                 className="
-                  group
-                  flex
-                  h-11
-                  cursor-pointer
-                  items-center
-                  gap-3
-                  rounded-xl
-                  border
-                  px-4
-                  transition-all
+                  shrink-0
+                  transition-transform
                   duration-300
-                  hover:-translate-y-0.5
-                  hover:shadow-lg
+                  group-hover:scale-110
                 "
                 style={{
-                  backgroundColor: "var(--surface)",
-                  borderColor: "var(--border)",
+                  color: "var(--text-secondary)",
+                }}
+              />
+
+              <span
+                className="
+                  hidden
+                  text-sm
+                  transition-colors
+                  duration-300
+                  group-hover:text-[#2F6F4F]
+                  sm:block
+                  sm:w-56
+                  lg:w-72
+                "
+                style={{
+                  color: "var(--text-secondary)",
                 }}
               >
-
-                <Search
-                  size={18}
-                  className="
-                    transition-transform
-                    duration-300
-                    group-hover:scale-110
-                  "
-                  style={{
-                    color: "var(--text-secondary)",
-                  }}
-                />
-
-                <span
-                  className="
-                    w-72
-                    text-sm
-                    transition-colors
-                    duration-300
-                    group-hover:text-[#2F6F4F]
-                  "
-                  style={{
-                    color: "var(--text-secondary)",
-                  }}
-                >
-                  Search notes, PYQs...
-                </span>
-
-              </div>
-
+                Search notes, PYQs...
+              </span>
             </Link>
-
           )}
-                    {/* Dark Mode */}
+
+          {/* Dark Mode */}
 
           <button
+            type="button"
             onClick={toggleTheme}
+            aria-label="Toggle theme"
             className="
               flex
-              h-11
-              w-11
+              h-10
+              w-10
+              shrink-0
               items-center
               justify-center
               rounded-xl
@@ -212,49 +215,51 @@ function Navbar() {
               duration-300
               hover:-translate-y-0.5
               hover:shadow-lg
+              sm:h-11
+              sm:w-11
             "
             style={{
               backgroundColor: "var(--surface)",
               borderColor: "var(--border)",
             }}
           >
-
             {theme === "light" ? (
-
               <Moon
-                size={20}
+                size={19}
                 style={{
                   color: "var(--text)",
                 }}
               />
-
             ) : (
-
               <Sun
-                size={20}
+                size={19}
                 className="text-yellow-400"
               />
-
             )}
-
           </button>
 
           {/* Settings */}
 
           <Link
             to="/settings"
+            aria-label="Settings"
             className="
               flex
-              h-11
+              h-10
+              w-10
+              shrink-0
               items-center
-              gap-2
+              justify-center
               rounded-xl
               border
-              px-5
               transition-all
               duration-300
               hover:-translate-y-0.5
               hover:shadow-lg
+              sm:h-11
+              sm:w-auto
+              sm:gap-2
+              sm:px-5
             "
             style={{
               backgroundColor: "var(--surface)",
@@ -262,22 +267,17 @@ function Navbar() {
               color: "var(--text)",
             }}
           >
-
             <Settings size={18} />
 
-            <span className="text-sm font-semibold">
+            <span className="hidden text-sm font-semibold sm:block">
               Settings
             </span>
-
           </Link>
 
         </div>
-
       </nav>
-          </header>
-
+    </header>
   );
-
 }
 
 export default Navbar;

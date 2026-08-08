@@ -11,34 +11,62 @@ import ResourceCard from "./ResourceCard";
 function ResourceHub() {
   const { semesterId, subjectSlug } = useParams();
 
-  const subjectName = subjectSlug
+  const subjectName = (subjectSlug || "Subject")
     .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .map(
+      (word) => word.charAt(0).toUpperCase() + word.slice(1)
+    )
     .join(" ");
 
   return (
-    <section className="mt-12">
+    <section className="w-full overflow-hidden">
 
       {/* Heading */}
 
-      <div className="mb-12">
+      <div className="mb-8 sm:mb-12">
 
         <p
-          className="text-sm font-bold uppercase tracking-[0.25em]"
+          className="
+            text-xs
+            font-bold
+            uppercase
+            tracking-[0.2em]
+            sm:text-sm
+            sm:tracking-[0.25em]
+          "
           style={{ color: "var(--primary)" }}
         >
           SEM {semesterId}
         </p>
 
         <h1
-          className="mt-3 text-5xl font-extrabold transition-colors duration-300"
+          className="
+            mt-3
+            break-words
+            text-3xl
+            font-extrabold
+            leading-tight
+            transition-colors
+            duration-300
+            sm:text-4xl
+            lg:text-5xl
+          "
           style={{ color: "var(--text)" }}
         >
           {subjectName}
         </h1>
 
         <p
-          className="mt-4 text-lg transition-colors duration-300"
+          className="
+            mt-3
+            max-w-2xl
+            text-base
+            leading-7
+            transition-colors
+            duration-300
+            sm:mt-4
+            sm:text-lg
+          "
           style={{ color: "var(--text-secondary)" }}
         >
           Select the resource you want to access.
@@ -48,7 +76,7 @@ function ResourceHub() {
 
       {/* Resources */}
 
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+      <div className="grid w-full grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:gap-8">
 
         <ResourceCard
           title="Notes"
