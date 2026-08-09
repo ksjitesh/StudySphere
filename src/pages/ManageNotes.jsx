@@ -18,7 +18,7 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 
-import { db } from "../firebase/firebase";
+import { db } from "../Firebase/firebase";
 
 function ManageNotes() {
 

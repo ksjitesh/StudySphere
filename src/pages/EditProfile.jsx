@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 
-import { db } from "../firebase/firebase";
+import { db } from "../Firebase/firebase";
 import { useAuth } from "../context/AuthContext";
 
 function EditProfile() {

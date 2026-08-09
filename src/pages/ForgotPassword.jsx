@@ -8,7 +8,7 @@ import {
 
 import AuthLayout from "../components/AuthLayout";
 
-import { resetPassword } from "../firebase/auth";
+import { resetPassword } from "../Firebase/auth";
 
 function ForgotPassword() {
 

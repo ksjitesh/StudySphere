@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import syllabusData from "../data/syllabusdata";
+import syllabusData from "../data/syllabusData";
 
 function Semester() {
   const { semesterId } = useParams();

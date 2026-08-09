@@ -15,7 +15,7 @@ import AuthLayout from "../components/AuthLayout";
 import {
   signupUser,
   googleLogin,
-} from "../firebase/auth";
+} from "../Firebase/auth";
 
 function Signup() {
 

@@ -8,7 +8,7 @@ import {
   LogOut,
 } from "lucide-react";
 
-import { logoutUser } from "../firebase/auth";
+import { logoutUser } from "../Firebase/auth";
 
 function AdminDashboard() {
 
