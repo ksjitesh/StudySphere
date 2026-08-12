@@ -8,7 +8,6 @@ import {
   Search,
   Moon,
   Sun,
-  Settings,
 } from "lucide-react";
 
 import logo from "../assets/logo.svg";
@@ -52,16 +51,30 @@ function Navbar() {
           sm:px-6
         "
       >
+
         {/* Logo */}
 
         <Link
           to="/"
-          className="flex min-w-0 shrink-0 items-center gap-2 sm:gap-3"
+          className="
+            flex
+            min-w-0
+            shrink-0
+            items-center
+            gap-2
+            sm:gap-3
+          "
         >
           <img
             src={logo}
             alt="StudySphere"
-            className="h-9 w-9 object-contain sm:h-11 sm:w-11"
+            className="
+              h-9
+              w-9
+              object-contain
+              sm:h-11
+              sm:w-11
+            "
           />
 
           <span
@@ -88,21 +101,42 @@ function Navbar() {
 
         {/* Right Side */}
 
-        <div className="flex min-w-0 items-center gap-2 sm:gap-4 lg:gap-8">
+        <div
+          className="
+            flex
+            min-w-0
+            items-center
+            gap-2
+            sm:gap-4
+            lg:gap-8
+          "
+        >
 
           {/* Home */}
 
           <NavLink
             to="/"
             className={({ isActive }) =>
-              `hidden text-sm font-semibold transition-all duration-300 hover:scale-105 sm:block ${
-                isActive ? "" : "hover:text-[#2F6F4F]"
-              }`
+              `
+                hidden
+                text-sm
+                font-semibold
+                transition-all
+                duration-300
+                hover:scale-105
+                sm:block
+                ${
+                  isActive
+                    ? ""
+                    : "hover:text-[#2F6F4F]"
+                }
+              `
             }
             style={({ isActive }) => ({
               color: isActive
                 ? "var(--primary)"
                 : "var(--text-secondary)",
+
               textShadow: isActive
                 ? "0 0 12px color-mix(in srgb, var(--primary) 45%, transparent)"
                 : "none",
@@ -115,21 +149,55 @@ function Navbar() {
 
           <NavLink
             to="/syllabus"
+            aria-label="Syllabus"
             className={({ isActive }) =>
-              `hidden text-sm font-semibold transition-all duration-300 hover:scale-105 sm:block ${
-                isActive ? "" : "hover:text-[#2F6F4F]"
-              }`
+              `
+                flex
+                h-10
+                w-10
+                shrink-0
+                items-center
+                justify-center
+                rounded-xl
+                border
+                transition-all
+                duration-300
+                hover:-translate-y-0.5
+                hover:shadow-lg
+                sm:h-auto
+                sm:w-auto
+                sm:justify-start
+                sm:border-0
+                sm:shadow-none
+              `
             }
             style={({ isActive }) => ({
+              backgroundColor: isActive
+                ? "color-mix(in srgb, var(--primary) 10%, var(--surface))"
+                : "var(--surface)",
+
+              borderColor: "var(--border)",
+
               color: isActive
                 ? "var(--primary)"
                 : "var(--text-secondary)",
+
               textShadow: isActive
                 ? "0 0 12px color-mix(in srgb, var(--primary) 45%, transparent)"
                 : "none",
             })}
           >
-            Syllabus
+            {/* Mobile Icon */}
+
+            <span className="text-lg sm:hidden">
+              📚
+            </span>
+
+            {/* Desktop Text */}
+
+            <span className="hidden text-sm font-semibold sm:block">
+              Syllabus
+            </span>
           </NavLink>
 
           {/* Search */}
@@ -196,7 +264,7 @@ function Navbar() {
             </Link>
           )}
 
-          {/* Dark Mode */}
+          {/* Theme */}
 
           <button
             type="button"
@@ -237,42 +305,6 @@ function Navbar() {
               />
             )}
           </button>
-
-          {/* Settings */}
-
-          <Link
-            to="/settings"
-            aria-label="Settings"
-            className="
-              flex
-              h-10
-              w-10
-              shrink-0
-              items-center
-              justify-center
-              rounded-xl
-              border
-              transition-all
-              duration-300
-              hover:-translate-y-0.5
-              hover:shadow-lg
-              sm:h-11
-              sm:w-auto
-              sm:gap-2
-              sm:px-5
-            "
-            style={{
-              backgroundColor: "var(--surface)",
-              borderColor: "var(--border)",
-              color: "var(--text)",
-            }}
-          >
-            <Settings size={18} />
-
-            <span className="hidden text-sm font-semibold sm:block">
-              Settings
-            </span>
-          </Link>
 
         </div>
       </nav>

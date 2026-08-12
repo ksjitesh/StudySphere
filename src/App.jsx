@@ -2,13 +2,7 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  useLocation,
-  Navigate,
 } from "react-router-dom";
-
-import { useAuth } from "./context/AuthContext";
-
-import ProtectedRoute from "./components/ProtectedRoute";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -25,260 +19,122 @@ import Projects from "./pages/Projects";
 import SubjectSyllabus from "./pages/SubjectSyllabus";
 import SearchPage from "./pages/Search";
 
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import ForgotPassword from "./pages/ForgotPassword";
-import Profile from "./pages/Profile";
-import Settings from "./pages/Settings";
-import EditProfile from "./pages/EditProfile";
-import ChangePassword from "./pages/ChangePassword";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminRoute from "./components/AdminRoute";
 import ManageNotes from "./pages/ManageNotes";
+
 import NotFound from "./pages/NotFound";
 
 function AppContent() {
-
-  const location = useLocation();
-
-  const { currentUser } = useAuth();
-
-  const authPages = [
-    "/login",
-    "/signup",
-    "/forgot-password",
-  ];
-
-  const hideLayout =
-    authPages.includes(location.pathname);
-
   return (
-
     <>
-
-      {!hideLayout && <Navbar />}
+      <Navbar />
 
       <Routes>
-                {/* Home */}
+
+        {/* Home */}
 
         <Route
           path="/"
-          element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
-          }
+          element={<Home />}
         />
 
         {/* Syllabus */}
 
         <Route
           path="/syllabus"
-          element={
-            <ProtectedRoute>
-              <Syllabus />
-            </ProtectedRoute>
-          }
+          element={<Syllabus />}
         />
 
         <Route
           path="/syllabus/semester/:semesterId"
-          element={
-            <ProtectedRoute>
-              <Semester />
-            </ProtectedRoute>
-          }
+          element={<Semester />}
         />
 
         <Route
           path="/syllabus/semester/:semesterId/:subjectSlug"
-          element={
-            <ProtectedRoute>
-              <SubjectSyllabus />
-            </ProtectedRoute>
-          }
+          element={<SubjectSyllabus />}
         />
 
         {/* Resources */}
 
         <Route
           path="/semester/:semesterId"
-          element={
-            <ProtectedRoute>
-              <Subjects />
-            </ProtectedRoute>
-          }
+          element={<Subjects />}
         />
 
         <Route
           path="/semester/:semesterId/subject/:subjectSlug"
-          element={
-            <ProtectedRoute>
-              <Subject />
-            </ProtectedRoute>
-          }
+          element={<Subject />}
         />
 
         <Route
           path="/semester/:semesterId/subject/:subjectSlug/notes"
-          element={
-            <ProtectedRoute>
-              <Notes />
-            </ProtectedRoute>
-          }
+          element={<Notes />}
         />
 
         <Route
           path="/semester/:semesterId/subject/:subjectSlug/pyqs"
-          element={
-            <ProtectedRoute>
-              <PYQs />
-            </ProtectedRoute>
-          }
+          element={<PYQs />}
         />
 
         <Route
           path="/semester/:semesterId/subject/:subjectSlug/assignments"
-          element={
-            <ProtectedRoute>
-              <Assignments />
-            </ProtectedRoute>
-          }
+          element={<Assignments />}
         />
 
         <Route
           path="/semester/:semesterId/subject/:subjectSlug/projects"
-          element={
-            <ProtectedRoute>
-              <Projects />
-            </ProtectedRoute>
-          }
+          element={<Projects />}
         />
 
         {/* Search */}
 
         <Route
           path="/search"
-          element={
-            <ProtectedRoute>
-              <SearchPage />
-            </ProtectedRoute>
-          }
+          element={<SearchPage />}
         />
-                {/* Authentication */}
+
+        {/* Admin */}
 
         <Route
-          path="/login"
+          path="/admin"
           element={
-            currentUser ? (
-              <Navigate to="/" replace />
-            ) : (
-              <Login />
-            )
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
           }
         />
 
         <Route
-          path="/signup"
+          path="/admin/notes"
           element={
-            currentUser ? (
-              <Navigate to="/" replace />
-            ) : (
-              <Signup />
-            )
+            <AdminRoute>
+              <ManageNotes />
+            </AdminRoute>
           }
         />
 
+        {/* 404 */}
+
         <Route
-          path="/forgot-password"
-          element={
-            currentUser ? (
-              <Navigate to="/" replace />
-            ) : (
-              <ForgotPassword />
-            )
-          }
+          path="*"
+          element={<NotFound />}
         />
-
-        {/* Profile */}
-
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* Settings */}
-
-        <Route
-          path="/settings"
-          element={
-            <ProtectedRoute>
-              <Settings />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-  path="/edit-profile"
-  element={
-    <ProtectedRoute>
-      <EditProfile />
-    </ProtectedRoute>
-  }
-/>
-<Route
-  path="/change-password"
-  element={
-    <ProtectedRoute>
-      <ChangePassword />
-    </ProtectedRoute>
-  }
-/>
-<Route
-  path="/admin"
-  element={
-    <AdminRoute>
-      <AdminDashboard />
-    </AdminRoute>
-  }
-/>
-<Route
-  path="/admin/notes"
-  element={
-    <AdminRoute>
-      <ManageNotes />
-    </AdminRoute>
-  }
-/>
-<Route
-  path="*"
-  element={<NotFound />}
-/>
 
       </Routes>
 
-      {!hideLayout && <Footer />}
-          </>
-
+      <Footer />
+    </>
   );
-
 }
 
 function App() {
-
   return (
-
     <BrowserRouter>
-
       <AppContent />
-
     </BrowserRouter>
-
   );
-
 }
 
 export default App;
