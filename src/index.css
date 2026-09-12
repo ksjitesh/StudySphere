@@ -1,68 +1,419 @@
+/* =========================================================
+   StudySphere — Cinematic Design System
+   Phase 1A
+========================================================= */
+
 @import "tailwindcss";
 
-/* -----------------------------
-   Light Theme
------------------------------- */
+/* =========================================================
+   LIGHT THEME
+========================================================= */
 
 :root {
-  --bg: #F8F7F4;
-  --surface: #FFFFFF;
-  --text: #1E3A5F;
-  --text-secondary: #64748B;
-  --border: #E2E8F0;
-  --primary: #2F6F4F;
+  --bg: #f5f7f5;
+  --surface: #ffffff;
+  --surface-soft: #f8faf9;
+
+  --text: #10251b;
+  --text-secondary: #64756c;
+  --text-muted: #8b9891;
+
+  --border: #dfe7e2;
+  --border-strong: #cbd8d0;
+
+  --primary: #2f6f4f;
+  --primary-soft: #e5f0e9;
+
+  --accent: #7aa88d;
+
+  --cinematic-dark: #07100c;
+  --cinematic-deep: #0b1913;
 }
 
-/* -----------------------------
-   Dark Theme
------------------------------- */
+/* =========================================================
+   DARK THEME
+========================================================= */
 
 [data-theme="dark"] {
-  --bg: #0F172A;
-  --surface: #1E293B;
-  --text: #F8FAFC;
-  --text-secondary: #CBD5E1;
-  --border: #334155;
-  --primary: #4ADE80;
+  --bg: #060b09;
+  --surface: #0c1411;
+  --surface-soft: #101b17;
+
+  --text: #f1f7f3;
+  --text-secondary: #9eafa6;
+  --text-muted: #6f8077;
+
+  --border: #1d2b25;
+  --border-strong: #2a3b33;
+
+  --primary: #71d69a;
+  --primary-soft: #12271c;
+
+  --accent: #3f8f63;
+
+  --cinematic-dark: #030806;
+  --cinematic-deep: #07120d;
 }
 
-/* -----------------------------
-   Global
------------------------------- */
+/* =========================================================
+   GLOBAL
+========================================================= */
 
 html {
-  scroll-behavior: smooth;
   width: 100%;
+  min-width: 0;
   overflow-x: hidden;
+
+  scroll-behavior: smooth;
+
+  background: var(--bg);
+  color: var(--text);
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   margin: 0;
-  min-width: 0;
   width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+
+  overflow-x: hidden;
+
   background: var(--bg);
   color: var(--text);
+
   transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+    background-color 300ms ease,
+    color 300ms ease;
 }
 
-* {
+/* =========================================================
+   BOX SIZING
+========================================================= */
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease,
-    border-color 0.3s ease;
 }
+
+/* =========================================================
+   MEDIA
+========================================================= */
 
 img,
-svg {
+svg,
+video,
+canvas {
+  display: block;
   max-width: 100%;
 }
+
+/* =========================================================
+   FORM ELEMENTS
+========================================================= */
 
 button,
 input,
 textarea,
 select {
   max-width: 100%;
+  font: inherit;
+}
+
+/* =========================================================
+   SELECTION
+========================================================= */
+
+::selection {
+  background: color-mix(
+    in srgb,
+    var(--primary) 25%,
+    transparent
+  );
+
+  color: var(--text);
+}
+
+/* =========================================================
+   CINEMATIC BACKGROUND
+========================================================= */
+
+.cinematic-bg {
+  position: relative;
+  isolation: isolate;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      color-mix(in srgb, var(--primary) 9%, transparent),
+      transparent 42%
+    ),
+    var(--bg);
+}
+
+/* =========================================================
+   CINEMATIC GRID
+========================================================= */
+
+.cinematic-grid {
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background-image:
+    linear-gradient(
+      color-mix(in srgb, var(--text) 5%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--text) 5%, transparent) 1px,
+      transparent 1px
+    );
+
+  background-size: 48px 48px;
+
+  mask-image: linear-gradient(
+    to bottom,
+    black,
+    transparent 85%
+  );
+
+  opacity: 0.45;
+}
+
+/* =========================================================
+   ATMOSPHERE
+========================================================= */
+
+.cinematic-glow {
+  position: absolute;
+
+  width: 32rem;
+  height: 32rem;
+
+  border-radius: 9999px;
+
+  pointer-events: none;
+
+  background: color-mix(
+    in srgb,
+    var(--primary) 12%,
+    transparent
+  );
+
+  filter: blur(120px);
+
+  opacity: 0.6;
+
+  will-change: transform;
+}
+
+/* =========================================================
+   GLASS
+========================================================= */
+
+.cinematic-glass {
+  background: color-mix(
+    in srgb,
+    var(--surface) 72%,
+    transparent
+  );
+
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--border) 80%,
+      transparent
+    );
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* =========================================================
+   DEPTH SURFACE
+========================================================= */
+
+.cinematic-surface {
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--surface) 94%, transparent),
+      color-mix(in srgb, var(--surface-soft) 88%, transparent)
+    );
+
+  border: 1px solid var(--border);
+
+  box-shadow:
+    0 20px 60px
+      color-mix(in srgb, #000 8%, transparent);
+}
+
+/* =========================================================
+   LARGE DISPLAY TYPOGRAPHY
+========================================================= */
+
+.display-title {
+  font-size: clamp(
+    3.5rem,
+    10vw,
+    9rem
+  );
+
+  line-height: 0.88;
+
+  font-weight: 800;
+
+  letter-spacing: -0.065em;
+}
+
+.display-subtitle {
+  font-size: clamp(
+    1.1rem,
+    2vw,
+    1.5rem
+  );
+
+  line-height: 1.5;
+
+  color: var(--text-secondary);
+}
+
+/* =========================================================
+   MOTION SAFETY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =========================================================
+   MOBILE PERFORMANCE
+========================================================= */
+
+@media (max-width: 640px) {
+  .cinematic-grid {
+    background-size: 32px 32px;
+    opacity: 0.3;
+  }
+
+  .cinematic-glow {
+    width: 20rem;
+    height: 20rem;
+
+    filter: blur(90px);
+    opacity: 0.45;
+  }
+}
+/* =========================================================
+   STUDYSPHERE — MOTION PRIMITIVES
+========================================================= */
+
+.motion-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: motionReveal 900ms cubic-bezier(0.16, 1, 0.3, 1)
+    forwards;
+}
+
+.motion-reveal-delay-1 {
+  animation-delay: 120ms;
+}
+
+.motion-reveal-delay-2 {
+  animation-delay: 240ms;
+}
+
+.motion-reveal-delay-3 {
+  animation-delay: 360ms;
+}
+
+@keyframes motionReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Subtle floating depth */
+
+.motion-float {
+  animation: motionFloat 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes motionFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+/* Cinematic line */
+
+.cinematic-line {
+  width: 0;
+  height: 1px;
+
+  background: var(--primary);
+
+  animation: cinematicLine 1s
+    cubic-bezier(0.16, 1, 0.3, 1)
+    forwards;
+}
+
+@keyframes cinematicLine {
+  to {
+    width: 100%;
+  }
+}
+
+/* Premium hover depth */
+
+.depth-hover {
+  transition:
+    transform 500ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 500ms ease,
+    border-color 500ms ease;
+}
+
+.depth-hover:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 30px 80px
+      color-mix(in srgb, #000 14%, transparent);
+}
+
+/* Disable heavier motion when requested */
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-reveal,
+  .motion-float,
+  .cinematic-line {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    width: 100%;
+  }
 }

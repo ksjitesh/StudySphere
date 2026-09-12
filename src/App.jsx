@@ -2,7 +2,9 @@ import {
   BrowserRouter,
   Routes,
   Route,
+  useLocation,
 } from "react-router-dom";
+import { useEffect } from "react";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -25,9 +27,35 @@ import ManageNotes from "./pages/ManageNotes";
 
 import NotFound from "./pages/NotFound";
 
+
+/* =========================================================
+   SCROLL TO TOP
+========================================================= */
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "auto",
+    });
+  }, [pathname]);
+
+  return null;
+}
+
+
+/* =========================================================
+   APP CONTENT
+========================================================= */
+
 function AppContent() {
   return (
     <>
+      <ScrollToTop />
+
       <Navbar />
 
       <Routes>
@@ -38,6 +66,7 @@ function AppContent() {
           path="/"
           element={<Home />}
         />
+
 
         {/* Syllabus */}
 
@@ -55,6 +84,7 @@ function AppContent() {
           path="/syllabus/semester/:semesterId/:subjectSlug"
           element={<SubjectSyllabus />}
         />
+
 
         {/* Resources */}
 
@@ -88,12 +118,14 @@ function AppContent() {
           element={<Projects />}
         />
 
+
         {/* Search */}
 
         <Route
           path="/search"
           element={<SearchPage />}
         />
+
 
         {/* Admin */}
 
@@ -115,6 +147,7 @@ function AppContent() {
           }
         />
 
+
         {/* 404 */}
 
         <Route
@@ -128,6 +161,11 @@ function AppContent() {
     </>
   );
 }
+
+
+/* =========================================================
+   APP
+========================================================= */
 
 function App() {
   return (

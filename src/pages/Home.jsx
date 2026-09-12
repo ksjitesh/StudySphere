@@ -1,30 +1,25 @@
-import Greeting from "../components/Greeting";
-import SemesterGrid from "../components/SemesterGrid";
+import FantasyHero from "../components/FantasyHero";
+import CinematicJourney from "../components/CinematicJourney";
 import LatestNotice from "../components/LatestNotice";
 
 function Home() {
   return (
     <main
-      className="min-h-screen transition-colors duration-300"
+      className="min-h-screen overflow-hidden"
       style={{ backgroundColor: "var(--bg)" }}
     >
-      {/* Main Dashboard Container */}
+      <FantasyHero />
 
-      <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 md:px-8 lg:px-10 lg:py-12">
+      <CinematicJourney />
 
-        {/* Greeting */}
-
-        <Greeting />
-
-        {/* Semester Grid */}
-
-        <SemesterGrid />
-
-        {/* Latest Notice */}
-
-        <LatestNotice />
-
-      </div>
+      <section
+        className="relative w-full px-5 py-8 sm:px-8 sm:py-10 lg:px-12 xl:px-16"
+        style={{ backgroundColor: "var(--bg)" }}
+      >
+        <div className="mx-auto w-full max-w-[1600px]">
+          <LatestNotice />
+        </div>
+      </section>
     </main>
   );
 }
