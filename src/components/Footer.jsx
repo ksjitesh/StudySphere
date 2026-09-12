@@ -1,11 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import {
-  GraduationCap,
-  Mail,
-  ArrowUp,
-  ArrowUpRight,
-} from "lucide-react";
+import { GraduationCap, Mail, ArrowUp } from "lucide-react";
 
 function Footer() {
   const year = new Date().getFullYear();
@@ -13,528 +8,242 @@ function Footer() {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
+      left: 0,
       behavior: "smooth",
     });
   };
 
-  const footerReveal = {
-    hidden: {
-      opacity: 0,
-      y: 45,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.7,
-        ease: [0.22, 1, 0.36, 1],
-      },
-    },
-  };
-
-  const columnReveal = {
-    hidden: {
-      opacity: 0,
-      y: 25,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.55,
-        ease: [0.22, 1, 0.36, 1],
-      },
-    },
-  };
-
   return (
-    <motion.footer
-      className="
-        mt-24
-        border-t
-        transition-colors
-        duration-300
-      "
+    <footer
+      className="relative w-full overflow-hidden border-t"
       style={{
         backgroundColor: "var(--surface)",
         borderColor: "var(--border)",
       }}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{
-        once: true,
-        amount: 0.08,
-      }}
-      variants={footerReveal}
     >
-      <div className="mx-auto max-w-7xl px-6 py-14 sm:py-16">
+      {/* Soft ambient depth — CSS only, does not affect page scrolling */}
+      <div
+        className="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full opacity-20 blur-3xl"
+        style={{ backgroundColor: "var(--primary)" }}
+      />
+      <div
+        className="pointer-events-none absolute -bottom-32 right-0 h-72 w-72 rounded-full opacity-10 blur-3xl"
+        style={{ backgroundColor: "var(--primary)" }}
+      />
 
-        {/* =====================================
-            MAIN FOOTER
-        ===================================== */}
-
-        <div className="grid gap-12 md:grid-cols-4">
-
-          {/* =====================================
-              BRAND
-          ===================================== */}
-
-          <motion.div variants={columnReveal}>
-            <div className="flex items-center gap-3">
-
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-12 sm:px-8 sm:py-14 lg:px-10">
+        <div className="grid gap-10 md:grid-cols-4 md:gap-8">
+          {/* BRAND */}
+          <motion.div
+            initial={{ opacity: 0, y: 24, rotateX: 8 }}
+            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            style={{ transformPerspective: 900 }}
+          >
+            <motion.div
+              className="flex w-fit items-center gap-3"
+              whileHover={{ y: -4, rotateX: 3 }}
+              transition={{ duration: 0.25 }}
+              style={{ transformPerspective: 700 }}
+            >
               <motion.div
-                className="
-                  rounded-xl
-                  p-3
-                  text-white
-                  shadow-lg
-                "
+                className="flex h-11 w-11 items-center justify-center rounded-xl text-white"
                 style={{
                   backgroundColor: "var(--primary)",
                   boxShadow:
-                    "0 12px 28px color-mix(in srgb, var(--primary) 16%, transparent)",
+                    "0 14px 35px color-mix(in srgb, var(--primary) 18%, transparent)",
                 }}
                 whileHover={{
-                  y: -3,
-                  rotate: -2,
-                  scale: 1.04,
+                  scale: 1.08,
+                  rotateY: -10,
+                  rotateZ: -2,
                 }}
-                transition={{
-                  duration: 0.25,
-                }}
+                whileTap={{ scale: 0.96 }}
+                transition={{ duration: 0.25 }}
               >
-                <GraduationCap size={26} />
+                <GraduationCap size={23} />
               </motion.div>
 
               <div>
-                <motion.h2
-                  className="
-                    text-2xl
-                    font-bold
-                    transition-colors
-                    duration-300
-                  "
-                  style={{
-                    color: "var(--text)",
-                  }}
-                  whileHover={{
-                    x: 2,
-                  }}
+                <h2
+                  className="text-xl font-bold"
+                  style={{ color: "var(--text)" }}
                 >
                   StudySphere
-                </motion.h2>
+                </h2>
 
                 <p
-                  className="
-                    text-sm
-                    transition-colors
-                    duration-300
-                  "
-                  style={{
-                    color: "var(--text-secondary)",
-                  }}
+                  className="text-xs"
+                  style={{ color: "var(--text-secondary)" }}
                 >
                   Learn • Practice • Succeed
                 </p>
               </div>
-
-            </div>
+            </motion.div>
 
             <p
-              className="
-                mt-6
-                max-w-sm
-                leading-7
-                transition-colors
-                duration-300
-              "
-              style={{
-                color: "var(--text-secondary)",
-              }}
+              className="mt-5 max-w-sm text-sm leading-6"
+              style={{ color: "var(--text-secondary)" }}
             >
-              Your complete BCA learning platform for Notes,
-              Previous Year Question Papers, Assignments,
-              Projects and Official Syllabus.
+              Your complete BCA learning platform for Notes, Previous Year
+              Question Papers, Assignments, Projects and Official Syllabus.
             </p>
           </motion.div>
 
-          {/* =====================================
-              QUICK LINKS
-          ===================================== */}
+          {/* QUICK LINKS */}
+          <FooterColumn title="Quick Links">
+            <FooterLink to="/" label="Home" />
+            <FooterLink to="/syllabus" label="Syllabus" />
+            <FooterLink to="/search" label="Search" />
+          </FooterColumn>
 
-          <motion.div variants={columnReveal}>
-            <h3
-              className="
-                mb-5
-                text-lg
-                font-bold
-              "
-              style={{
-                color: "var(--text)",
-              }}
+          {/* RESOURCES */}
+          <FooterColumn title="Resources">
+            <FooterItem icon="📚" label="Notes" />
+            <FooterItem icon="📝" label="PYQs" />
+            <FooterItem icon="📄" label="Assignments" />
+            <FooterItem icon="💻" label="Projects" />
+          </FooterColumn>
+
+          {/* CONTACT */}
+          <FooterColumn title="Contact">
+            <motion.a
+              href="mailto:ksjitesh17@gmail.com"
+              className="flex items-center gap-3 text-sm"
+              style={{ color: "var(--text-secondary)" }}
+              whileHover={{ x: 5 }}
+              transition={{ duration: 0.2 }}
             >
-              Quick Links
-            </h3>
+              <Mail size={17} style={{ color: "var(--primary)" }} />
+              <span className="transition-colors duration-200 hover:text-[#71d69a]">
+                ksjitesh17@gmail.com
+              </span>
+            </motion.a>
 
-            <div className="space-y-3">
-
-              <FooterLink to="/" label="Home" />
-
-              <FooterLink
-                to="/syllabus"
-                label="Syllabus"
-              />
-
-              <FooterLink
-                to="/search"
-                label="Search"
-              />
-
-            </div>
-          </motion.div>
-
-          {/* =====================================
-              RESOURCES
-          ===================================== */}
-
-          <motion.div variants={columnReveal}>
-            <h3
-              className="
-                mb-5
-                text-lg
-                font-bold
-              "
-              style={{
-                color: "var(--text)",
-              }}
+            <motion.a
+              href="https://instagram.com/k.s.jitesh"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 text-sm"
+              style={{ color: "var(--text-secondary)" }}
+              whileHover={{ x: 5 }}
+              transition={{ duration: 0.2 }}
             >
-              Resources
-            </h3>
+              <span>📷</span>
+              <span className="transition-colors duration-200 hover:text-[#71d69a]">
+                @k.s.jitesh
+              </span>
+            </motion.a>
 
-            <div className="space-y-3">
-
-              <ResourceItem
-                icon="📚"
-                label="Notes"
-              />
-
-              <ResourceItem
-                icon="📝"
-                label="PYQs"
-              />
-
-              <ResourceItem
-                icon="📄"
-                label="Assignments"
-              />
-
-              <ResourceItem
-                icon="💻"
-                label="Projects"
-              />
-
-            </div>
-          </motion.div>
-
-          {/* =====================================
-              CONTACT
-          ===================================== */}
-
-          <motion.div variants={columnReveal}>
-            <h3
-              className="
-                mb-5
-                text-lg
-                font-bold
-              "
+            <motion.button
+              type="button"
+              onClick={scrollToTop}
+              className="mt-2 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white"
               style={{
-                color: "var(--text)",
+                backgroundColor: "var(--primary)",
+                boxShadow:
+                  "0 12px 28px color-mix(in srgb, var(--primary) 16%, transparent)",
               }}
+              whileHover={{
+                y: -3,
+                scale: 1.03,
+                rotateX: 4,
+              }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ duration: 0.2 }}
             >
-              Contact
-            </h3>
-
-            <div className="space-y-4">
-
-              {/* Email */}
-
-              <motion.div
-                className="flex items-center gap-3"
-                whileHover={{
-                  x: 3,
-                }}
+              <motion.span
+                animate={{ y: [0, -2, 0] }}
                 transition={{
-                  duration: 0.2,
+                  duration: 1.6,
+                  repeat: Infinity,
+                  ease: "easeInOut",
                 }}
               >
-                <Mail
-                  size={18}
-                  style={{
-                    color: "var(--primary)",
-                  }}
-                />
-
-                <a
-                  href="mailto:ksjitesh17@gmail.com"
-                  className="
-                    transition-colors
-                    duration-300
-                  "
-                  style={{
-                    color: "var(--text-secondary)",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.color =
-                      "var(--primary)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.color =
-                      "var(--text-secondary)";
-                  }}
-                >
-                  ksjitesh17@gmail.com
-                </a>
-              </motion.div>
-
-              {/* Instagram */}
-
-              <motion.div
-                className="flex items-center gap-3"
-                whileHover={{
-                  x: 3,
-                }}
-                transition={{
-                  duration: 0.2,
-                }}
-              >
-                <span>📷</span>
-
-                <a
-                  href="https://instagram.com/k.s.jitesh"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="
-                    transition-colors
-                    duration-300
-                  "
-                  style={{
-                    color: "var(--text-secondary)",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.color =
-                      "var(--primary)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.color =
-                      "var(--text-secondary)";
-                  }}
-                >
-                  @k.s.jitesh
-                </a>
-              </motion.div>
-
-              {/* Back To Top */}
-
-              <motion.button
-                type="button"
-                onClick={scrollToTop}
-                className="
-                  group
-                  mt-4
-                  flex
-                  items-center
-                  gap-2
-                  rounded-xl
-                  px-5
-                  py-3
-                  font-semibold
-                  text-white
-                "
-                style={{
-                  backgroundColor: "var(--primary)",
-                  boxShadow:
-                    "0 10px 24px color-mix(in srgb, var(--primary) 15%, transparent)",
-                }}
-                whileHover={{
-                  y: -3,
-                  scale: 1.02,
-                }}
-                whileTap={{
-                  scale: 0.97,
-                }}
-                transition={{
-                  duration: 0.2,
-                }}
-              >
-                <motion.span
-                  animate={{
-                    y: [0, -3, 0],
-                  }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <ArrowUp size={18} />
-                </motion.span>
-
-                Back to Top
-              </motion.button>
-            </div>
-          </motion.div>
+                <ArrowUp size={16} />
+              </motion.span>
+              Back to Top
+            </motion.button>
+          </FooterColumn>
         </div>
 
-        {/* =====================================
-            BOTTOM BAR
-        ===================================== */}
-
+        {/* BOTTOM BAR */}
         <motion.div
-          className="
-            mt-12
-            flex
-            flex-col
-            items-center
-            justify-between
-            gap-4
-            border-t
-            pt-6
-            transition-colors
-            duration-300
-            md:flex-row
-          "
+          className="mt-10 flex flex-col gap-3 border-t pt-6 text-sm sm:flex-row sm:items-center sm:justify-between"
           style={{
             borderColor: "var(--border)",
+            color: "var(--text-secondary)",
           }}
-          initial={{
-            opacity: 0,
-            y: 20,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.3,
-          }}
-          transition={{
-            duration: 0.6,
-            delay: 0.15,
-            ease: [0.22, 1, 0.36, 1],
-          }}
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.55, delay: 0.08 }}
         >
-          <p
-            className="text-sm"
-            style={{
-              color: "var(--text-secondary)",
-            }}
-          >
-            © {year} StudySphere. All Rights Reserved.
-          </p>
+          <p>© {year} StudySphere. All Rights Reserved.</p>
 
           <motion.p
-            className="text-sm"
-            style={{
-              color: "var(--text-secondary)",
-            }}
-            whileHover={{
-              y: -1,
-            }}
+            whileHover={{ y: -2 }}
+            transition={{ duration: 0.2 }}
           >
             Made with ❤️ by Jitesh
           </motion.p>
         </motion.div>
       </div>
-    </motion.footer>
+    </footer>
   );
 }
 
-/* =====================================
-   QUICK LINK COMPONENT
-===================================== */
+function FooterColumn({ title, children }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 28, rotateX: 7 }}
+      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+      viewport={{ once: true, amount: 0.12 }}
+      transition={{
+        duration: 0.55,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      style={{ transformPerspective: 900 }}
+    >
+      <h3
+        className="mb-4 text-sm font-semibold uppercase tracking-[0.16em]"
+        style={{ color: "var(--text)" }}
+      >
+        {title}
+      </h3>
+
+      <div className="space-y-3">{children}</div>
+    </motion.div>
+  );
+}
 
 function FooterLink({ to, label }) {
   return (
-    <motion.div
-      whileHover={{
-        x: 5,
-      }}
-      transition={{
-        duration: 0.2,
-      }}
-    >
+    <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
       <Link
         to={to}
-        className="
-          group
-          flex
-          items-center
-          gap-1
-          transition-colors
-          duration-300
-        "
-        style={{
-          color: "var(--text-secondary)",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.color =
-            "var(--primary)";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.color =
-            "var(--text-secondary)";
-        }}
+        className="block text-sm transition-colors duration-200 hover:text-[#71d69a]"
+        style={{ color: "var(--text-secondary)" }}
       >
-        <span>{label}</span>
-
-        <ArrowUpRight
-          size={14}
-          className="
-            opacity-0
-            -translate-x-1
-            transition-all
-            duration-300
-            group-hover:translate-x-0
-            group-hover:opacity-100
-          "
-        />
+        {label}
       </Link>
     </motion.div>
   );
 }
 
-/* =====================================
-   RESOURCE ITEM
-===================================== */
-
-function ResourceItem({ icon, label }) {
+function FooterItem({ icon, label }) {
   return (
     <motion.div
-      className="
-        flex
-        items-center
-        gap-3
-        rounded-lg
-        py-1
-      "
-      style={{
-        color: "var(--text-secondary)",
-      }}
-      whileHover={{
-        x: 5,
-      }}
-      transition={{
-        duration: 0.2,
-      }}
+      className="flex items-center gap-3 text-sm"
+      style={{ color: "var(--text-secondary)" }}
+      whileHover={{ x: 5 }}
+      transition={{ duration: 0.2 }}
     >
       <motion.span
-        whileHover={{
-          scale: 1.12,
-        }}
-        transition={{
-          duration: 0.2,
-        }}
+        whileHover={{ scale: 1.12, rotateY: 12 }}
+        transition={{ duration: 0.2 }}
+        style={{ transformPerspective: 500 }}
       >
         {icon}
       </motion.span>
