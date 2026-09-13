@@ -1,73 +1,12 @@
 import { useParams } from "react-router-dom";
 import {
-  motion,
-  useScroll,
-  useSpring,
-  useTransform,
-} from "framer-motion";
-import {
   Eye,
   Download,
   ClipboardList,
+  ArrowUpRight,
 } from "lucide-react";
-import { useRef } from "react";
-
+import { motion } from "framer-motion";
 import assignmentsData from "../data/assignmentsData";
-
-function ScrollCard({ children }) {
-  const ref = useRef(null);
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-
-  const progress = useSpring(scrollYProgress, {
-    stiffness: 90,
-    damping: 24,
-    mass: 0.35,
-  });
-
-  const y = useTransform(
-    progress,
-    [0, 0.5, 1],
-    [55, 0, -35]
-  );
-
-  const rotateX = useTransform(
-    progress,
-    [0, 0.5, 1],
-    [8, 0, -5]
-  );
-
-  const scale = useTransform(
-    progress,
-    [0, 0.5, 1],
-    [0.94, 1, 0.97]
-  );
-
-  const opacity = useTransform(
-    progress,
-    [0, 0.22, 0.78, 1],
-    [0, 1, 1, 0.9]
-  );
-
-  return (
-    <motion.div
-      ref={ref}
-      style={{
-        y,
-        rotateX,
-        scale,
-        opacity,
-        transformPerspective: 1000,
-        transformStyle: "preserve-3d",
-      }}
-    >
-      {children}
-    </motion.div>
-  );
-}
 
 function Assignments() {
   const { semesterId, subjectSlug } = useParams();
@@ -85,326 +24,244 @@ function Assignments() {
 
   return (
     <main
-      className="min-h-screen transition-colors duration-300"
-      style={{
-        backgroundColor: "var(--bg)",
-      }}
+      className="relative min-h-screen overflow-hidden transition-colors duration-300"
+      style={{ backgroundColor: "var(--bg)" }}
     >
-      <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 md:px-8 lg:px-10 lg:py-12">
+      {/* Ambient Glow */}
+      <div
+        className="pointer-events-none absolute -top-40 left-1/2 h-[420px] w-[420px] -translate-x-1/2 rounded-full opacity-20 blur-3xl"
+        style={{ backgroundColor: "var(--primary)" }}
+      />
+
+      {/* Background Grid */}
+      <div className="pointer-events-none absolute inset-0 opacity-[0.035]">
+        <div
+          className="h-full w-full"
+          style={{
+            backgroundImage:
+              "linear-gradient(var(--text) 1px, transparent 1px), linear-gradient(90deg, var(--text) 1px, transparent 1px)",
+            backgroundSize: "70px 70px",
+          }}
+        />
+      </div>
+
+      <div className="relative mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 md:px-8 lg:px-10 lg:py-14">
 
         {/* Header */}
-
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 35,
-            rotateX: 8,
-          }}
-          animate={{
-            opacity: 1,
-            y: 0,
-            rotateX: 0,
-          }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{
-            duration: 0.7,
-            ease: "easeOut",
-          }}
-          style={{
-            transformPerspective: 1000,
+            duration: 0.65,
+            ease: [0.22, 1, 0.36, 1],
           }}
         >
-          <p
-            className="text-sm font-bold uppercase tracking-[0.25em]"
-            style={{
-              color: "var(--primary)",
-            }}
-          >
-            Semester {semesterId}
-          </p>
+          <div className="flex items-center gap-3">
+            <span
+              className="h-px w-10"
+              style={{ backgroundColor: "var(--primary)" }}
+            />
 
-          <h1
-            className="
-              mt-3
-              break-words
-              text-3xl
-              font-extrabold
-              leading-tight
-              transition-colors
-              duration-300
-              sm:text-5xl
-            "
-            style={{
-              color: "var(--text)",
-            }}
-          >
-            {subjectName}
-          </h1>
+            <p
+              className="text-xs font-bold uppercase tracking-[0.28em] sm:text-sm"
+              style={{ color: "var(--primary)" }}
+            >
+              Semester {semesterId}
+            </p>
+          </div>
 
-          <p
-            className="
-              mt-3
-              text-base
-              transition-colors
-              duration-300
-              sm:text-lg
-            "
-            style={{
-              color: "var(--text-secondary)",
-            }}
-          >
-            Assignments
-          </p>
+          <div className="mt-4 flex items-end justify-between gap-6">
+            <div className="min-w-0">
+              <h1
+                className="break-words text-3xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl"
+                style={{ color: "var(--text)" }}
+              >
+                {subjectName}
+              </h1>
+
+              <p
+                className="mt-3 text-base sm:text-lg"
+                style={{ color: "var(--text-secondary)" }}
+              >
+                Assignments
+              </p>
+            </div>
+
+            {/* Assignment Count */}
+            <div
+              className="hidden shrink-0 rounded-2xl border px-5 py-3 text-right sm:block"
+              style={{
+                backgroundColor: "var(--surface)",
+                borderColor: "var(--border)",
+              }}
+            >
+              <p
+                className="text-2xl font-black"
+                style={{ color: "var(--text)" }}
+              >
+                {assignments.length}
+              </p>
+
+              <p
+                className="text-xs font-medium uppercase tracking-wider"
+                style={{ color: "var(--text-secondary)" }}
+              >
+                Assignments
+              </p>
+            </div>
+          </div>
         </motion.div>
 
-        {/* Assignments */}
+        {/* Divider */}
+        <motion.div
+          initial={{ scaleX: 0, opacity: 0 }}
+          animate={{ scaleX: 1, opacity: 1 }}
+          transition={{
+            duration: 0.7,
+            delay: 0.2,
+          }}
+          className="mt-8 h-px origin-left"
+          style={{ backgroundColor: "var(--border)" }}
+        />
 
-        <div className="mt-8 space-y-6 sm:mt-12">
+        {/* Assignments */}
+        <div className="mt-8 space-y-5 sm:mt-10 sm:space-y-6">
 
           {assignments.length === 0 ? (
+            <motion.div
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="rounded-3xl border border-dashed p-8 text-center sm:p-12"
+              style={{
+                backgroundColor: "var(--surface)",
+                borderColor: "var(--border)",
+              }}
+            >
+              <ClipboardList
+                size={52}
+                strokeWidth={1.5}
+                className="mx-auto"
+                style={{ color: "var(--text-secondary)" }}
+              />
 
-            <ScrollCard>
+              <h2
+                className="mt-5 text-xl font-bold sm:text-2xl"
+                style={{ color: "var(--text)" }}
+              >
+                No Assignments Available Yet
+              </h2>
+
+              <p
+                className="mt-2"
+                style={{ color: "var(--text-secondary)" }}
+              >
+                Assignments will be uploaded soon.
+              </p>
+            </motion.div>
+          ) : (
+            assignments.map((assignment, index) => (
               <motion.div
-                whileHover={{
-                  y: -6,
-                  scale: 1.01,
+                key={index}
+                initial={{
+                  opacity: 0,
+                  y: 35,
+                }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
                 }}
                 transition={{
-                  duration: 0.25,
+                  duration: 0.55,
+                  delay: index * 0.07,
+                  ease: [0.22, 1, 0.36, 1],
                 }}
-                className="
-                  rounded-3xl
-                  border
-                  border-dashed
-                  p-8
-                  text-center
-                  transition-colors
-                  duration-300
-                  sm:p-10
-                "
+                whileHover={{ y: -4 }}
+                className="group w-full rounded-3xl border p-5 shadow-sm transition-shadow duration-300 hover:shadow-xl sm:p-6"
                 style={{
                   backgroundColor: "var(--surface)",
                   borderColor: "var(--border)",
                 }}
               >
-                <ClipboardList
-                  size={50}
-                  className="mx-auto"
-                  style={{
-                    color: "var(--text-secondary)",
-                  }}
-                />
+                <div className="flex min-w-0 flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
 
-                <h2
-                  className="
-                    mt-5
-                    text-xl
-                    font-bold
-                    transition-colors
-                    duration-300
-                    sm:text-2xl
-                  "
-                  style={{
-                    color: "var(--text)",
-                  }}
-                >
-                  No Assignments Available Yet
-                </h2>
-
-                <p
-                  className="mt-2 transition-colors duration-300"
-                  style={{
-                    color: "var(--text-secondary)",
-                  }}
-                >
-                  Assignments will be uploaded soon.
-                </p>
-              </motion.div>
-            </ScrollCard>
-
-          ) : (
-
-            assignments.map((assignment, index) => (
-
-              <ScrollCard key={index}>
-                <motion.div
-                  whileHover={{
-                    y: -6,
-                    scale: 1.01,
-                  }}
-                  transition={{
-                    duration: 0.25,
-                  }}
-                  className="
-                    w-full
-                    min-w-0
-                    rounded-3xl
-                    border
-                    p-5
-                    shadow-sm
-                    transition-all
-                    duration-300
-                    hover:shadow-lg
-                    sm:p-6
-                  "
-                  style={{
-                    backgroundColor: "var(--surface)",
-                    borderColor: "var(--border)",
-                  }}
-                >
-
-                  <div
-                    className="
-                      flex
-                      min-w-0
-                      flex-col
-                      gap-5
-                      sm:flex-row
-                      sm:items-center
-                      sm:justify-between
-                    "
-                  >
-
-                    {/* Assignment Information */}
+                  {/* Assignment Info */}
+                  <div className="flex min-w-0 items-center gap-4">
+                    <div
+                      className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-105"
+                      style={{
+                        backgroundColor:
+                          "color-mix(in srgb, var(--primary) 12%, transparent)",
+                        color: "var(--primary)",
+                      }}
+                    >
+                      <ClipboardList size={22} />
+                    </div>
 
                     <div className="min-w-0">
-
                       <h2
-                        className="
-                          break-words
-                          text-xl
-                          font-bold
-                          leading-7
-                          transition-colors
-                          duration-300
-                          sm:text-2xl
-                        "
-                        style={{
-                          color: "var(--text)",
-                        }}
+                        className="break-words text-lg font-bold leading-7 sm:text-xl"
+                        style={{ color: "var(--text)" }}
                       >
                         {assignment.title}
                       </h2>
 
                       <p
-                        className="
-                          mt-2
-                          text-sm
-                          transition-colors
-                          duration-300
-                        "
-                        style={{
-                          color: "var(--text-secondary)",
-                        }}
+                        className="mt-1 text-sm"
+                        style={{ color: "var(--text-secondary)" }}
                       >
                         Assignment PDF
                       </p>
-
                     </div>
-
-                    {/* Action Buttons */}
-
-                    <div
-                      className="
-                        flex
-                        w-full
-                        min-w-0
-                        flex-col
-                        gap-3
-                        sm:w-auto
-                        sm:flex-row
-                      "
-                    >
-
-                      {/* View */}
-
-                      <motion.a
-                        href={assignment.pdf}
-                        target="_blank"
-                        rel="noreferrer"
-                        whileHover={{
-                          scale: 1.05,
-                        }}
-                        whileTap={{
-                          scale: 0.97,
-                        }}
-                        transition={{
-                          duration: 0.2,
-                        }}
-                        className="
-                          flex
-                          w-full
-                          items-center
-                          justify-center
-                          gap-2
-                          rounded-xl
-                          px-5
-                          py-3
-                          text-center
-                          text-sm
-                          font-semibold
-                          text-white
-                          sm:w-auto
-                        "
-                        style={{
-                          backgroundColor: "var(--primary)",
-                        }}
-                      >
-                        <Eye size={18} />
-                        View
-                      </motion.a>
-
-                      {/* Download */}
-
-                      <motion.a
-                        href={assignment.pdf}
-                        download
-                        whileHover={{
-                          scale: 1.05,
-                        }}
-                        whileTap={{
-                          scale: 0.97,
-                        }}
-                        transition={{
-                          duration: 0.2,
-                        }}
-                        className="
-                          flex
-                          w-full
-                          items-center
-                          justify-center
-                          gap-2
-                          rounded-xl
-                          border
-                          px-5
-                          py-3
-                          text-center
-                          text-sm
-                          font-semibold
-                          sm:w-auto
-                        "
-                        style={{
-                          backgroundColor: "var(--surface)",
-                          borderColor: "var(--border)",
-                          color: "var(--text)",
-                        }}
-                      >
-                        <Download size={18} />
-                        Download
-                      </motion.a>
-
-                    </div>
-
                   </div>
 
-                </motion.div>
-              </ScrollCard>
+                  {/* Buttons */}
+                  <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
 
+                    {/* View */}
+                    <a
+                      href={assignment.pdf}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group/button flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold text-white transition-all duration-200 active:scale-[0.98] sm:w-auto"
+                      style={{
+                        backgroundColor: "var(--primary)",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <Eye size={18} />
+
+                      <span>View</span>
+
+                      <ArrowUpRight
+                        size={16}
+                        className="transition-transform duration-200 group-hover/button:translate-x-0.5 group-hover/button:-translate-y-0.5"
+                      />
+                    </a>
+
+                    {/* Download */}
+                    <a
+                      href={assignment.pdf}
+                      download
+                      className="flex w-full items-center justify-center gap-2 rounded-xl border px-5 py-3 text-sm font-semibold transition-all duration-200 active:scale-[0.98] sm:w-auto"
+                      style={{
+                        backgroundColor: "var(--bg)",
+                        borderColor: "var(--border)",
+                        color: "var(--text)",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <Download size={18} />
+                      <span>Download</span>
+                    </a>
+
+                  </div>
+                </div>
+              </motion.div>
             ))
-
           )}
 
         </div>
-
       </div>
     </main>
   );

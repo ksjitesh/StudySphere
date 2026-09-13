@@ -3,7 +3,7 @@ const notesData = {
     "computer-fundamentals-and-office-automation": [
       {
         title: "Unit 1",
-        pdf: "#",
+        pdf: "/resources/notes/sem1/computer-fundamentals/unit1.pdf",
       },
       {
         title: "Unit 2",
@@ -133,7 +133,7 @@ const notesData = {
     "elements-of-statistics": [
   {
     title: "Unit 1",
-    pdf: "file:///C:/Users/ksjit/AppData/Local/Packages/5319275A.WhatsAppDesktop_cv1g1gvanyjgm/LocalState/sessions/3A3E706F8B4ED451CCB6D19B554DE585AF045C05/transfers/2026-32/BCA_Sem3_Elements_of_Statistics_Handbook.pdf",
+    pdf: "#",
   },
   {
     title: "Unit 2",

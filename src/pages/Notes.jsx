@@ -1,69 +1,300 @@
 import { useParams } from "react-router-dom";
-import { Eye, Download, FileText } from "lucide-react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
-import { useRef } from "react";
+import {
+  Eye,
+  Download,
+  FileText,
+  ArrowUpRight,
+} from "lucide-react";
+import { motion } from "framer-motion";
 import notesData from "../data/notesData";
-
-function ScrollCard({ children, index }) {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-  const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 24, mass: 0.35 });
-  const y = useTransform(progress, [0, 0.5, 1], [55, 0, -35]);
-  const rotateX = useTransform(progress, [0, 0.5, 1], [8, 0, -5]);
-  const scale = useTransform(progress, [0, 0.5, 1], [0.94, 1, 0.97]);
-  const opacity = useTransform(progress, [0, 0.22, 0.78, 1], [0, 1, 1, 0.9]);
-
-  return (
-    <motion.div
-      ref={ref}
-      style={{ y, rotateX, scale, opacity, transformPerspective: 1000, transformStyle: "preserve-3d" }}
-      transition={{ duration: 0.3 }}
-    >
-      {children}
-    </motion.div>
-  );
-}
 
 function Notes() {
   const { semesterId, subjectSlug } = useParams();
+
   const notes = notesData?.[semesterId]?.[subjectSlug] || [];
-  const subjectName = subjectSlug.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+
+  const subjectName = subjectSlug
+    .split("-")
+    .map(
+      (word) =>
+        word.charAt(0).toUpperCase() + word.slice(1)
+    )
+    .join(" ");
 
   return (
-    <main className="min-h-screen overflow-hidden transition-colors duration-300" style={{ backgroundColor: "var(--bg)" }}>
-      <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 md:px-8 lg:px-10 lg:py-12">
-        <motion.div initial={{ opacity: 0, y: 35, rotateX: 8 }} animate={{ opacity: 1, y: 0, rotateX: 0 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }} style={{ transformPerspective: 1000 }}>
-          <p className="text-sm font-bold uppercase tracking-[0.25em]" style={{ color: "var(--primary)" }}>Semester {semesterId}</p>
-          <h1 className="mt-3 break-words text-3xl font-extrabold leading-tight sm:text-5xl" style={{ color: "var(--text)" }}>{subjectName}</h1>
-          <p className="mt-3 text-base sm:text-lg" style={{ color: "var(--text-secondary)" }}>Study Notes</p>
+    <main
+      className="relative min-h-screen overflow-hidden transition-colors duration-300"
+      style={{ backgroundColor: "var(--bg)" }}
+    >
+      {/* Ambient Glow */}
+      <div
+        className="pointer-events-none absolute -top-40 left-1/2 h-[420px] w-[420px] -translate-x-1/2 rounded-full opacity-20 blur-3xl"
+        style={{ backgroundColor: "var(--primary)" }}
+      />
+
+      {/* Background Grid */}
+      <div className="pointer-events-none absolute inset-0 opacity-[0.035]">
+        <div
+          className="h-full w-full"
+          style={{
+            backgroundImage:
+              "linear-gradient(var(--text) 1px, transparent 1px), linear-gradient(90deg, var(--text) 1px, transparent 1px)",
+            backgroundSize: "70px 70px",
+          }}
+        />
+      </div>
+
+      <div className="relative mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 md:px-8 lg:px-10 lg:py-14">
+
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.65,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+        >
+          <div className="flex items-center gap-3">
+            <span
+              className="h-px w-10"
+              style={{
+                backgroundColor: "var(--primary)",
+              }}
+            />
+
+            <p
+              className="text-xs font-bold uppercase tracking-[0.28em] sm:text-sm"
+              style={{
+                color: "var(--primary)",
+              }}
+            >
+              Semester {semesterId}
+            </p>
+          </div>
+
+          <div className="mt-4 flex items-end justify-between gap-6">
+            <div className="min-w-0">
+              <h1
+                className="break-words text-3xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl"
+                style={{
+                  color: "var(--text)",
+                }}
+              >
+                {subjectName}
+              </h1>
+
+              <p
+                className="mt-3 text-base sm:text-lg"
+                style={{
+                  color: "var(--text-secondary)",
+                }}
+              >
+                Study Notes
+              </p>
+            </div>
+
+            {/* Notes Count */}
+            <div
+              className="hidden shrink-0 rounded-2xl border px-5 py-3 text-right sm:block"
+              style={{
+                backgroundColor: "var(--surface)",
+                borderColor: "var(--border)",
+              }}
+            >
+              <p
+                className="text-2xl font-black"
+                style={{
+                  color: "var(--text)",
+                }}
+              >
+                {notes.length}
+              </p>
+
+              <p
+                className="text-xs font-medium uppercase tracking-wider"
+                style={{
+                  color: "var(--text-secondary)",
+                }}
+              >
+                Notes
+              </p>
+            </div>
+          </div>
         </motion.div>
 
-        <div className="mt-8 space-y-6 sm:mt-12">
+        {/* Divider */}
+        <motion.div
+          initial={{ scaleX: 0, opacity: 0 }}
+          animate={{ scaleX: 1, opacity: 1 }}
+          transition={{
+            duration: 0.7,
+            delay: 0.2,
+          }}
+          className="mt-8 h-px origin-left"
+          style={{
+            backgroundColor: "var(--border)",
+          }}
+        />
+
+        {/* Notes List */}
+        <div className="mt-8 space-y-5 sm:mt-10 sm:space-y-6">
+
           {notes.length === 0 ? (
-            <motion.div initial={{ opacity: 0, scale: 0.94, y: 30 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.6 }} className="rounded-3xl border border-dashed p-8 text-center sm:p-10" style={{ backgroundColor: "var(--surface)", borderColor: "var(--border)" }}>
-              <FileText size={50} className="mx-auto" style={{ color: "var(--text-secondary)" }} />
-              <h2 className="mt-5 text-xl font-bold sm:text-2xl" style={{ color: "var(--text)" }}>No Notes Available Yet</h2>
-              <p className="mt-2" style={{ color: "var(--text-secondary)" }}>Notes will be uploaded soon.</p>
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: 25,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              transition={{
+                duration: 0.5,
+              }}
+              className="rounded-3xl border p-8 text-center sm:p-12"
+              style={{
+                backgroundColor: "var(--surface)",
+                borderColor: "var(--border)",
+              }}
+            >
+              <FileText
+                size={52}
+                strokeWidth={1.5}
+                className="mx-auto"
+                style={{
+                  color: "var(--text-secondary)",
+                }}
+              />
+
+              <h2
+                className="mt-5 text-xl font-bold sm:text-2xl"
+                style={{
+                  color: "var(--text)",
+                }}
+              >
+                No Notes Available Yet
+              </h2>
+
+              <p
+                className="mt-2"
+                style={{
+                  color: "var(--text-secondary)",
+                }}
+              >
+                Notes will be uploaded soon.
+              </p>
             </motion.div>
-          ) : notes.map((note, index) => (
-            <ScrollCard key={index} index={index}>
-              <motion.div whileHover={{ y: -6, scale: 1.01 }} transition={{ duration: 0.25 }} className="w-full min-w-0 rounded-3xl border p-5 shadow-sm transition-shadow duration-300 hover:shadow-2xl sm:p-6" style={{ backgroundColor: "var(--surface)", borderColor: "var(--border)" }}>
+          ) : (
+            notes.map((note, index) => (
+              <motion.div
+                key={index}
+                initial={{
+                  opacity: 0,
+                  y: 35,
+                }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                transition={{
+                  duration: 0.55,
+                  delay: index * 0.07,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                whileHover={{
+                  y: -4,
+                }}
+                className="group w-full rounded-3xl border p-5 shadow-sm transition-shadow duration-300 hover:shadow-xl sm:p-6"
+                style={{
+                  backgroundColor: "var(--surface)",
+                  borderColor: "var(--border)",
+                }}
+              >
                 <div className="flex min-w-0 flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="min-w-0">
-                    <h2 className="break-words text-xl font-bold leading-7 sm:text-2xl" style={{ color: "var(--text)" }}>{note.title}</h2>
-                    <p className="mt-2 text-sm" style={{ color: "var(--text-secondary)" }}>PDF Notes</p>
+
+                  {/* Note Info */}
+                  <div className="flex min-w-0 items-center gap-4">
+
+                    <div
+                      className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-105"
+                      style={{
+                        backgroundColor:
+                          "color-mix(in srgb, var(--primary) 12%, transparent)",
+                        color: "var(--primary)",
+                      }}
+                    >
+                      <FileText size={22} />
+                    </div>
+
+                    <div className="min-w-0">
+                      <h2
+                        className="break-words text-lg font-bold leading-7 sm:text-xl"
+                        style={{
+                          color: "var(--text)",
+                        }}
+                      >
+                        {note.title}
+                      </h2>
+
+                      <p
+                        className="mt-1 text-sm"
+                        style={{
+                          color: "var(--text-secondary)",
+                        }}
+                      >
+                        PDF Study Material
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex w-full min-w-0 flex-col gap-3 sm:w-auto sm:flex-row">
-                    <a href={note.pdf} target="_blank" rel="noopener noreferrer" className="flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-center text-sm font-semibold text-white transition-all duration-300 hover:scale-105 sm:w-auto" style={{ backgroundColor: "var(--primary)" }}><Eye size={18} />Open</a>
-                    <a href={note.pdf} download className="flex w-full items-center justify-center gap-2 rounded-xl border px-5 py-3 text-center text-sm font-semibold transition-all duration-300 hover:scale-105 sm:w-auto" style={{ backgroundColor: "var(--surface)", borderColor: "var(--border)", color: "var(--text)" }}><Download size={18} />Download</a>
+
+                  {/* Action Buttons */}
+                  <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+
+                    {/* Open */}
+                    <a
+                      href={note.pdf}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group/button flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold text-white transition-all duration-200 active:scale-[0.98] sm:w-auto"
+                      style={{
+                        backgroundColor: "var(--primary)",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <Eye size={18} />
+
+                      <span>Open</span>
+
+                      <ArrowUpRight
+                        size={16}
+                        className="transition-transform duration-200 group-hover/button:translate-x-0.5 group-hover/button:-translate-y-0.5"
+                      />
+                    </a>
+
+                    {/* Download */}
+                    <a
+                      href={note.pdf}
+                      download
+                      className="flex w-full items-center justify-center gap-2 rounded-xl border px-5 py-3 text-sm font-semibold transition-all duration-200 active:scale-[0.98] sm:w-auto"
+                      style={{
+                        backgroundColor: "var(--bg)",
+                        borderColor: "var(--border)",
+                        color: "var(--text)",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <Download size={18} />
+                      <span>Download</span>
+                    </a>
+
                   </div>
                 </div>
               </motion.div>
-            </ScrollCard>
-          ))}
+            ))
+          )}
+
         </div>
       </div>
     </main>
